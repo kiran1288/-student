@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student List</title>
+</head>
+<body>
+
+<h2>Student List</h2>
+
+<!-- Search form -->
+<form th:action="@{/search}" method="get" style="margin-bottom: 20px;">
+    <label for="query">Search by Name:</label>
+    <input type="text" id="query" name="query" placeholder="Enter student name" required />
+    <button type="submit">Search</button>
+</form>
+
+<!-- Student table -->
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Class</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="student : ${students}">
+        <td th:text="${student.studentId}"></td>
+        <td th:text="${student.name}"></td>
+        <td th:text="${student.age}"></td>
+        <td th:text="${student.studentClass}"></td>
+        <td th:text="${student.email}"></td>
+        <td th:text="${student.address}"></td>
+        <td>
+            <a th:href="@{'/editById/' + ${student.studentId}}">Edit</a> |
+            <a th:href="@{'/deleteById/' + ${student.studentId}}" onclick="return confirm('Are you sure?')">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Show message if list is empty -->
+<div th:if="${#lists.isEmpty(students)}">
+    <p>No students found.</p>
+</div>
+
+</body>
+</html>
